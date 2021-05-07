@@ -6,7 +6,7 @@ Tool for checking actual size of files/dirs inside jar archive.
 # usage
 
 ```
-usage: java -jar jarchecker.jar -j /path/to/jar
+usage: java -jar jarsizechecker.jar -j /path/to/jar
  -d,--deep <arg>    Deep tree level, default is 2
  -h,--help          print this message
  -i,--include       Display files, default is false
@@ -19,7 +19,7 @@ usage: java -jar jarchecker.jar -j /path/to/jar
 ### default 
 
 ```
-java -jar jarchecker.jar -j /tmp/path/sources/truerss_1.0.5.jar
+java -jar jarsizechecker.jar -j /tmp/path/sources/truerss_1.0.5.jar
 
 /com                                               18.0 MB
   /com/mysql                                          6.0 MB
@@ -47,7 +47,7 @@ Compressed size: 41.4 MB
 ### deep parameter
 
 ```
-java -jar jarchecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -d 3
+java -jar jarsizechecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -d 3
 
 /com                                                                                                     18.0 MB
   /com/mysql                                                                                                6.0 MB
@@ -59,7 +59,7 @@ java -jar jarchecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -d 3
 ### unfold single files (when dir contain only one subdir)
 
 ```
-java -jar jarchecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -u
+java -jar jarsizechecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -u
 
 /play                                              2.8 MB
   /play/api                                           2.8 MB

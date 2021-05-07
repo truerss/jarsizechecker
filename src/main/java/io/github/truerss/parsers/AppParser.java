@@ -13,7 +13,7 @@ public class AppParser {
   private static final String deepArg = "deep";
   private static final String unFoldSingleArg = "unfold";
 
-  private static final String usage = "java -jar jarchecker.jar -j /path/to/jar";
+  private static final String usage = "java -jar jarsizechecker.jar -j /path/to/jar";
 
   public AppParser() {
     var options = new Options();
