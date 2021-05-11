@@ -2,6 +2,7 @@ package io.github.truerss.config;
 
 import io.github.truerss.structure.DirTree;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,13 +15,14 @@ public record PrintConfiguration(SortOrder order,
                                  ) {
 
   public List<DirTree.DirNode> apply(List<DirTree.DirNode> xs) {
-    Collections.sort(xs, Comparator.comparingLong(DirTree.DirNode::getDirSize));
+    List<DirTree.DirNode> tmp = new ArrayList<>(xs);
+    tmp.sort(Comparator.comparingLong(DirTree.DirNode::getDirSize));
     if (SortOrder.DESC == order) {
-      Collections.reverse(xs);
+      Collections.reverse(tmp);
     }
     if (skipFiles) {
-      xs = xs.stream().filter(x -> !x.isFile).collect(Collectors.toList());
+      tmp = tmp.stream().filter(x -> !x.isFile).collect(Collectors.toList());
     }
-    return xs;
+    return tmp;
   }
 }

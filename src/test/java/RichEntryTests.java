@@ -1,6 +1,4 @@
 
-import io.github.truerss.structure.DirRepr;
-import io.github.truerss.structure.DirTree;
 import io.github.truerss.util.RichEntry;
 import org.junit.jupiter.api.Test;
 
