@@ -1,9 +1,12 @@
 package io.github.truerss.parsers;
 
 import io.github.truerss.config.ConfigurationAndPath;
-import io.github.truerss.config.PrintConfiguration;
+import io.github.truerss.config.PrintConfigurationBuilder;
 import io.github.truerss.config.SortOrder;
+import io.github.truerss.util.StringUtils;
 import org.apache.commons.cli.*;
+
+import java.util.function.Function;
 
 public class AppParser {
   private final Options currentOptions;
@@ -45,48 +48,40 @@ public class AppParser {
 
   public ConfigurationAndPath parse(String[] args) {
     var parser = new DefaultParser();
-    var sortOrder = SortOrder.DESC;
-    var deepLevel = 2;
-    var skipFiles = true;
-    var unfoldSingle = false;
-    var jarPath = "/tmp";
+    var builder = PrintConfigurationBuilder.empty();
+    var jarPath = "";
     try {
       var cl = parser.parse(currentOptions, args);
 
       if (cl.hasOption(jarArg)) {
         jarPath = cl.getOptionValue(jarArg);
       }
-      if (cl.hasOption(AppParser.includeFilesArg)) {
-        skipFiles = false;
-      }
-      if (cl.hasOption(deepArg)) {
-        var tmp = cl.getOptionValue(deepArg);
-        try {
-          deepLevel = Integer.parseInt(tmp);
-        }
-        catch (NumberFormatException ignored)
-        {
 
-        }
-      }
-      if (cl.hasOption(orderArg)) {
-        var o = cl.getOptionValue(orderArg);
-        for (var s: SortOrder.values()) {
-          if (s.name().equalsIgnoreCase(o)) {
-            sortOrder = s;
-          }
-        }
-      }
-      if (cl.hasOption(unFoldSingleArg)) {
-        unfoldSingle = true;
-      }
+      parseIfElse(cl, deepArg, (value) -> builder.withDeepLevel(StringUtils.parseInt(value)));
+      parseIfElse(cl, orderArg, (value) -> builder.withSortOrder(SortOrder.parse(value)));
+      builder
+        .withSkipFiles(!cl.hasOption(AppParser.includeFilesArg))
+        .withUnFoldSingleChildren(cl.hasOption(unFoldSingleArg));
 
-      var conf = new PrintConfiguration(sortOrder, deepLevel, skipFiles, unfoldSingle);
+      var conf = builder.build();
       return new ConfigurationAndPath(jarPath, conf);
     } catch (ParseException ex) {
-      var formatter = new HelpFormatter();
-      formatter.printHelp(usage, currentOptions);
-      return null;
+      printHelp();
+    }
+
+    return null;
+  }
+
+  private void printHelp() {
+    var formatter = new HelpFormatter();
+    formatter.printHelp(usage, currentOptions);
+  }
+
+  private static void parseIfElse(CommandLine cl,
+                                  String arg,
+                                  Function<String, PrintConfigurationBuilder> func) {
+    if (cl.hasOption(arg)) {
+      func.apply(cl.getOptionValue(arg));
     }
   }
 }

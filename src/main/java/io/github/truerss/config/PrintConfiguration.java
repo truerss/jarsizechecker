@@ -12,6 +12,7 @@ public record PrintConfiguration(SortOrder order,
                                  boolean skipFiles,
                                  boolean unFoldSingleChildren
                                  ) {
+
   public List<DirTree.DirNode> apply(List<DirTree.DirNode> xs) {
     Collections.sort(xs, Comparator.comparingLong(DirTree.DirNode::getDirSize));
     if (SortOrder.DESC == order) {

@@ -1,6 +1,7 @@
 package io.github.truerss;
 
 import io.github.truerss.config.ConfigurationAndPath;
+import io.github.truerss.config.PrintConfiguration;
 import io.github.truerss.parsers.AppParser;
 import io.github.truerss.structure.DirRepr;
 import io.github.truerss.structure.DirTree;
@@ -28,6 +29,7 @@ public class Main {
 
   private static void run(ConfigurationAndPath configurationAndPath) throws IOException {
     var fileName = configurationAndPath.pathToJar();
+    configCheck(configurationAndPath.configuration());
     fileCheck(fileName);
 
     var dirTree = new DirTree();
@@ -54,6 +56,12 @@ public class Main {
     var config = configurationAndPath.configuration();
     var printer = new DirTreePrinter(dirTree, config);
     printer.print(new File(fileName).length());
+  }
+
+  private static void configCheck(PrintConfiguration configuration) {
+    if (configuration.deepLevel() <= 0) {
+      exit("Invalid --deep option, positive number is required");
+    }
   }
 
 

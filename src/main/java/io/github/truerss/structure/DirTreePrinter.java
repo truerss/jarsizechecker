@@ -61,8 +61,6 @@ public class DirTreePrinter {
     }
   }
 
-
-
   private static int resize(int maxLength, int nameLength, int leftPadding) {
     var tmp = maxLength*lengthMultiplier - nameLength + leftPadding;
     if (tmp < 0) {

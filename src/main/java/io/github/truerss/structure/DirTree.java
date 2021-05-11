@@ -64,7 +64,7 @@ public class DirTree {
     }
 
     public void addSize(long add) {
-      this.repr = this.repr.incrementSize(add);
+      this.repr = this.repr.withNewSize(add);
     }
 
     public List<DirNode> getChildren() {

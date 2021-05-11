@@ -15,4 +15,12 @@ public class StringUtils {
     }
     return String.format("%.1f %cB", bytes / 1000.0, ci.current());
   }
+
+  public static int parseInt(String str) {
+    try {
+      return Integer.parseInt(str);
+    } catch (NumberFormatException ignored) {
+      return -1; // checked on top level
+    }
+  }
 }
