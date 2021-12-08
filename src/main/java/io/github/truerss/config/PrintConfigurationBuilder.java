@@ -1,22 +1,17 @@
 package io.github.truerss.config;
 
-public class PrintConfigurationBuilder {
-  private static SortOrder defaultSortOrder = SortOrder.DESC;
-  private static int defaultDeepLevel = 2;
-  private static boolean defaultSkipFiles = true;
-  private static boolean defaultUnfoldSingleChildren = false;
+import static io.github.truerss.config.PrintConfiguration.*;
 
+public class PrintConfigurationBuilder {
   private SortOrder order = defaultSortOrder;
   private int deepLevel = defaultDeepLevel;
   private boolean skipFiles = defaultSkipFiles;
-  private boolean unFoldSingleChildren = defaultUnfoldSingleChildren;
+  private boolean unFoldSingleNode = defaultUnfoldSingleNode;
 
-  private PrintConfigurationBuilder() {
-
-  }
+  private PrintConfigurationBuilder() { }
 
   public PrintConfiguration build() {
-    return new PrintConfiguration(order, deepLevel, skipFiles, unFoldSingleChildren);
+    return new PrintConfiguration(order, deepLevel, skipFiles, unFoldSingleNode);
   }
 
   public static PrintConfigurationBuilder empty() {
@@ -38,10 +33,8 @@ public class PrintConfigurationBuilder {
     return this;
   }
 
-  public PrintConfigurationBuilder withUnFoldSingleChildren(boolean flag) {
-    this.unFoldSingleChildren = flag;
+  public PrintConfigurationBuilder withUnFoldSingleNode(boolean flag) {
+    this.unFoldSingleNode = flag;
     return this;
   }
-
-
 }

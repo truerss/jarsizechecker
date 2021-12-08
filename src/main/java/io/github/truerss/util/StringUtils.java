@@ -1,9 +1,13 @@
 package io.github.truerss.util;
 
+import java.nio.file.FileSystems;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
 public class StringUtils {
+
+  public static final String delimiter = FileSystems.getDefault().getSeparator();
+
   public static String humanReadableByteCountSI(long bytes) {
     if (-1000 < bytes && bytes < 1000) {
       return bytes + " B";

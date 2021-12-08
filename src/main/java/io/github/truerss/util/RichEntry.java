@@ -6,22 +6,24 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public record RichEntry(ZipEntry entry) {
+  private static final String delimiter = StringUtils.delimiter;
+
   public String name(int deep) {
     var arr = nameSplit(deep);
     var currentName = arr[0]; // head
     if (arr.length >= deep) {
-      var tmp = String.join("/", arr);
+      var tmp = String.join(delimiter, arr);
       if (!tmp.contains(".")) { // not a file
         currentName = tmp;
       }
       return currentName;
     }
-    return String.join("/", arr); // too deep
+    return String.join(delimiter, arr); // too deep
   }
 
   private String[] nameSplit(int deep) {
     var name = entry.getName();
-    var arr = name.split("/");
+    var arr = name.split(delimiter);
     if (arr.length > deep) {
       return Arrays.copyOfRange(arr, 0, deep);
     }

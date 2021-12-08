@@ -13,14 +13,14 @@ public class PrintConfigurationBuilderTests {
     empty.withDeepLevel(3)
         .withSortOrder(SortOrder.ASC)
         .withSkipFiles(false)
-        .withUnFoldSingleChildren(true);
+        .withUnFoldSingleNode(true);
 
     var p = empty.build();
 
     assertEquals(p.deepLevel(), 3);
     assertEquals(p.order(), SortOrder.ASC);
     assertFalse(p.skipFiles());
-    assertTrue(p.unFoldSingleChildren());
+    assertTrue(p.unFoldSingleNode());
 
   }
 }

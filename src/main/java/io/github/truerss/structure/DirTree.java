@@ -1,5 +1,7 @@
 package io.github.truerss.structure;
 
+import io.github.truerss.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -55,7 +57,7 @@ public class DirTree {
     private DirRepr repr;
     public final boolean isFile;
 
-    private List<DirNode> children = new ArrayList<>();
+    private final List<DirNode> children = new ArrayList<>();
 
     public DirNode(String name, DirRepr repr) {
       this.name = name;
@@ -100,7 +102,7 @@ public class DirTree {
       var nextName = name;
 
       if (!parentName.isEmpty()) { // root
-        nextName = parentName + "/" + name;
+        nextName = parentName + StringUtils.delimiter + name;
       }
 
       if (str.equals(nextName)) {

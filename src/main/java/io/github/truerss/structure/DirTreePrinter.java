@@ -54,7 +54,7 @@ public class DirTreePrinter {
     var xs = conf.apply(dirNode.getChildren());
 
     // unfold single node
-    if (!(!conf.unFoldSingleChildren() && dirNode.flatChildrenCount() == 1)) {
+    if (!(!conf.unFoldSingleNode() && dirNode.flatChildrenCount() == 1)) {
       for (var c : xs) {
         print(c, tmp, leftPadding + 1);
       }

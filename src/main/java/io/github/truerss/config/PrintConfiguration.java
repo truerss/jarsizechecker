@@ -11,9 +11,15 @@ import java.util.stream.Collectors;
 public record PrintConfiguration(SortOrder order,
                                  int deepLevel,
                                  boolean skipFiles,
-                                 boolean unFoldSingleChildren
+                                 boolean unFoldSingleNode
                                  ) {
 
+  static final SortOrder defaultSortOrder = SortOrder.DESC;
+  static final int defaultDeepLevel = 2;
+  static final boolean defaultSkipFiles = true;
+  static final boolean defaultUnfoldSingleNode = false;
+
+  // todo implicit-like
   public List<DirTree.DirNode> apply(List<DirTree.DirNode> xs) {
     List<DirTree.DirNode> tmp = new ArrayList<>(xs);
     tmp.sort(Comparator.comparingLong(DirTree.DirNode::getDirSize));

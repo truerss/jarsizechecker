@@ -3,15 +3,11 @@ package io.github.truerss;
 import io.github.truerss.config.ConfigurationAndPath;
 import io.github.truerss.config.PrintConfiguration;
 import io.github.truerss.parsers.AppParser;
-import io.github.truerss.structure.DirRepr;
-import io.github.truerss.structure.DirTree;
 import io.github.truerss.structure.DirTreePrinter;
-import io.github.truerss.util.RichEntry;
+import io.github.truerss.structure.DirTreeReader;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.zip.ZipInputStream;
 
 public class Main {
 
@@ -29,41 +25,20 @@ public class Main {
 
   private static void run(ConfigurationAndPath configurationAndPath) throws IOException {
     var fileName = configurationAndPath.pathToJar();
-    configCheck(configurationAndPath.configuration());
+    validateConfiguration(configurationAndPath.configuration());
     fileCheck(fileName);
 
-    var dirTree = new DirTree();
-    var deep = configurationAndPath.configuration().deepLevel();
-
-    try (var zis = new ZipInputStream(new FileInputStream(fileName))) {
-
-      var zipEntry = zis.getNextEntry();
-
-      while (zipEntry != null) {
-        var entry = new RichEntry(zipEntry);
-        var name = entry.name(deep);
-        var size = entry.size(zis);
-        var isFile = !zipEntry.isDirectory();
-
-        var repr = new DirRepr(name, size, isFile);
-        dirTree.add(repr);
-
-        zipEntry = zis.getNextEntry();
-      }
-      zis.closeEntry();
-    }
-
+    var dirTree = DirTreeReader.read(fileName, configurationAndPath.configuration().deepLevel());
     var config = configurationAndPath.configuration();
     var printer = new DirTreePrinter(dirTree, config);
     printer.print(new File(fileName).length());
   }
 
-  private static void configCheck(PrintConfiguration configuration) {
+  private static void validateConfiguration(PrintConfiguration configuration) {
     if (configuration.deepLevel() <= 0) {
       exit("Invalid --deep option, positive number is required");
     }
   }
-
 
   private static void fileCheck(String name) {
     // check file permissions

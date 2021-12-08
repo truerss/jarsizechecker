@@ -2,7 +2,7 @@ package io.github.truerss.parsers;
 
 import io.github.truerss.config.ConfigurationAndPath;
 import io.github.truerss.config.PrintConfigurationBuilder;
-import io.github.truerss.config.SortOrder;
+import io.github.truerss.util.SortOrderUtils;
 import io.github.truerss.util.StringUtils;
 import org.apache.commons.cli.*;
 
@@ -14,9 +14,9 @@ public class AppParser {
   private static final String orderArg = "order";
   private static final String includeFilesArg = "include";
   private static final String deepArg = "deep";
-  private static final String unFoldSingleArg = "unfold";
+  private static final String unFoldSingleNodeArg = "unfold";
 
-  private static final String usage = "java -jar jarsizechecker.jar -j /path/to/jar";
+  private static final String usage = "java -jar jarsizechecker.jar -j /path/to/file.jar";
 
   public AppParser() {
     var options = new Options();
@@ -33,7 +33,7 @@ public class AppParser {
     var deepOpt =  new Option("d", deepArg, true,
         "Deep tree level, default is 2");
     deepOpt.setRequired(false);
-    var foldOpt =  new Option("u", unFoldSingleArg, false,
+    var foldOpt =  new Option("u", unFoldSingleNodeArg, false,
         "Display trees with single leaf, default is false");
     foldOpt.setRequired(false);
     options
@@ -58,10 +58,10 @@ public class AppParser {
       }
 
       parseIfElse(cl, deepArg, (value) -> builder.withDeepLevel(StringUtils.parseInt(value)));
-      parseIfElse(cl, orderArg, (value) -> builder.withSortOrder(SortOrder.parse(value)));
+      parseIfElse(cl, orderArg, (value) -> builder.withSortOrder(SortOrderUtils.parse(value)));
       builder
         .withSkipFiles(!cl.hasOption(AppParser.includeFilesArg))
-        .withUnFoldSingleChildren(cl.hasOption(unFoldSingleArg));
+        .withUnFoldSingleNode(cl.hasOption(unFoldSingleNodeArg));
 
       var conf = builder.build();
       return new ConfigurationAndPath(jarPath, conf);

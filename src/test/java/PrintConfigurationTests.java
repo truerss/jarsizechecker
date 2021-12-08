@@ -38,7 +38,7 @@ public class PrintConfigurationTests {
   }
 
   private static List<Long> fetch(List<DirTree.DirNode> tmp) {
-    return tmp.stream().map(x -> x.getDirSize()).collect(Collectors.toList());
+    return tmp.stream().map(DirTree.DirNode::getDirSize).collect(Collectors.toList());
   }
 
   private static DirTree.DirNode gen(long size) {

@@ -56,7 +56,7 @@ java -jar jarsizechecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -d 3
 
 ```
 
-### unfold single files (when dir contain only one subdir)
+### unfold single files (when dir contain only one subdirectory)
 
 ```
 java -jar jarsizechecker.jar -j /tmp/path/sources/truerss_1.0.5.jar -u
